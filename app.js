@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const connectDB = require("./db/index");
+require("dotenv").config();
 
 //routers
 const angajati_router = require("./routers/angajati");
@@ -17,6 +19,15 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/assets/index.html"));
 });
 
-app.listen(3000, () => {
-  console.log("🟢 Server listening on port 3000");
-});
+const start = async () => {
+  try {
+    connectDB(process.env.DB_URL);
+    app.listen(3000, () => {
+      console.log("🟢 Server listening on port 3000");
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
