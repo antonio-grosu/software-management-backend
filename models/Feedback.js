@@ -3,15 +3,19 @@ const { Schema } = mongoose;
 
 const feedbackSchema = new Schema({
   nume_complet: String,
-  feedback: String,
+  text: String,
   rating: {
     type: Number,
     default: 5,
   },
   data: {
     type: Date,
-    default: Date.now,
+    default: () => {
+      return new Date();
+    },
   },
 });
 
 const Feedback = mongoose.model("Feedback", feedbackSchema);
+
+module.exports = Feedback;

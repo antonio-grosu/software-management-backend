@@ -1,43 +1,54 @@
+const ProdusMagazin = require("../models/ProdusMagazin");
+
 const createProduct = async (req, res) => {
   try {
-    const product = req.body;
+    const product = await ProdusMagazin.create(req.body);
     res.json(product);
   } catch (error) {
-    res.status(500).send("Eroare");
+    console.log(error);
+    res.status(500).send(error);
   }
 };
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = req.params.id;
-    res.json(product);
+    const id = req.params.id;
+    const product = await ProdusMagazin.findOneAndDelete({ _id: id });
+    res.json({ removed: `${product}` });
   } catch (error) {
-    res.status(500).send("Eroare");
+    res.status(500).send(error);
   }
 };
 const editProduct = async (req, res) => {
   try {
-    const product = req.params.id;
-    res.json(product);
+    const id = req.params.id;
+    const updatedData = req.body;
+    const product = await ProdusMagazin.findByIdAndUpdate(id, updatedData, {
+      new: True,
+    });
+    res.json({ edited: `${product}` });
   } catch (error) {
-    res.status(500).send("Eroare");
+    res.status(500).send(error);
   }
 };
 
 const getProduct = async (req, res) => {
   try {
-    const product = req.params.id;
+    const id = req.params.id;
+    const product = await ProdusMagazin.find({ _id: id });
     res.json(product);
   } catch (error) {
-    res.status(500).send("Eroare");
+    res.status(500).send(error);
   }
 };
 
 const getAll = async (req, res) => {
   try {
-    res.json("Products");
+    const allProducts = await ProdusMagazin.find();
+    res.json(allProducts);
   } catch (error) {
-    res.status(500).send("Eroare");
+    console.log(error);
+    res.status(500).send(error);
   }
 };
 

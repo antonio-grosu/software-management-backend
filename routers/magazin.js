@@ -10,8 +10,8 @@ const {
 
 router
   .get("/", getAll)
+  .post("/", createProduct)
   .get("/:id", getProduct)
-  .post("/:id", createProduct)
   .put("/:id", editProduct)
   .delete("/:id", deleteProduct);
 
